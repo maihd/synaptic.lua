@@ -14,6 +14,7 @@ local function class(name, ...)
     class.__name = name
     class.__className = name
     class.__index = class
+    class.__class = class
     class.__super = supers[1]
     class.__supers = supers
 
@@ -26,6 +27,11 @@ local function class(name, ...)
             return object
         end
     })
+
+    -- Helpers
+    function class.is(object)
+        return object and object.__class == class 
+    end
 
     -- Default metamethods
     if not class.__gc then

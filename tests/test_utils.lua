@@ -23,6 +23,10 @@ end
 local testObject = TestClass()
 testObject:printValue()
 print(testObject)
+print("testObject is instance of TestClass: " .. tostring(TestClass.is(testObject)))
+
+local TestClass2 = utils.class("TestClass2")
+print("testObject is instance of TestClass2: " .. tostring(TestClass2.is(testObject)))
 
 testObject = nil
 
