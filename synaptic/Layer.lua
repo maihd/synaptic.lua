@@ -39,12 +39,12 @@ return function (LayerConnection, Neuron, Network)
             end
 
             for id, neuron in pairs(self.list) do
-                local activation = neuron.activate(input[id])
+                local activation = neuron:activate(input[id])
                 table.insert(activations, activation)
             end
         else
             for _, neuron in pairs(self.list) do
-                local activation = neuron.activate()
+                local activation = neuron:activate()
                 table.insert(activations, activation)
             end
         end
@@ -61,12 +61,12 @@ return function (LayerConnection, Neuron, Network)
 
             for id = self.size, 1, -1 do
                 local neuron = self.list[id]
-                neuron.propagate(rate, target[id])
+                neuron:propagate(rate, target[id])
             end
         else
             for id = self.size, 1, -1 do
                 local neuron = self.list[id]
-                neuron.propagate(rate)
+                neuron:propagate(rate)
             end
         end
     end
@@ -80,7 +80,7 @@ return function (LayerConnection, Neuron, Network)
         end
 
         if Layer.is(layer) then
-            if not self.isConnected(layer) then
+            if not self:isConnected(layer) then
                 return LayerConnection(self, layer, type, weights)
             end
         else
@@ -99,7 +99,7 @@ return function (LayerConnection, Neuron, Network)
                 local gater = self.list[id]
                 for _, gated in pairs(neuron.connections.inputs) do
                     if connection.connections[gated.id] then
-                        gater.gate(gated)
+                        gater:gate(gated)
                     end
                 end
             end
@@ -112,7 +112,7 @@ return function (LayerConnection, Neuron, Network)
                 local gater = self.list[id]
                 for _, gated in pairs(neuron.connections.projected) do
                     if connection.connections[gated.id] then
-                        gater.gate(gated)
+                        gater:gate(gated)
                     end
                 end
             end
@@ -123,7 +123,7 @@ return function (LayerConnection, Neuron, Network)
 
             for id, gated in pairs(connection.list) do
                 local gater = self.list[id]
-                gater.gate(gated)
+                gater:gate(gated)
             end
         else
             error("Invalid gate type!")
@@ -138,7 +138,7 @@ return function (LayerConnection, Neuron, Network)
     -- true of false whether the whole layer is self-connected or not
     function Layer:isSelfConnected()
         for _, neuron in pairs(self.list) do
-            if not neuron.isSelfConnected() then
+            if not neuron:isSelfConnected() then
                 return false
             end
         end
@@ -152,7 +152,7 @@ return function (LayerConnection, Neuron, Network)
         local connections = 0
         for _, from in pairs(self.list) do
             for _, to in pairs(layer.list) do
-                local connected = from.isConnected(to)
+                local connected = from:isConnected(to)
                 if connected.type == "projected" then
                     connections = connections + 1
                 end
@@ -167,7 +167,7 @@ return function (LayerConnection, Neuron, Network)
         local connections = 0
         for id, from in pairs(self.list) do
             local to = layer.list[id]
-            local connected = from.isConnected(to)
+            local connected = from:isConnected(to)
             if connected.type == "projected" then
                 connections = connections + 1
             end
@@ -189,14 +189,14 @@ return function (LayerConnection, Neuron, Network)
     -- Clears all the neurons in the layer
     function Layer:clear()
         for _, neuron in pairs(self.list) do
-            neuron.clear()
+            neuron:clear()
         end
     end
 
     -- Resets all the neurons in the layer
     function Layer:reset()
         for _, neuron in pairs(self.list) do
-            neuron.reset()
+            neuron:reset()
         end
     end
 
