@@ -55,7 +55,7 @@ local function class(name, ...)
 
     if not class.toString then 
         class.toString = function (self)
-            return name
+            return self.__name
         end
     end
 

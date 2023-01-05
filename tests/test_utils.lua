@@ -24,4 +24,7 @@ local testObject = TestClass()
 testObject:printValue()
 print(testObject)
 
-collectgarbage("collect")
+testObject = nil
+
+collectgarbage("collect") -- why TestClass.__gc is not called?
+collectgarbage("collect") -- why TestClass.__gc is not called?
