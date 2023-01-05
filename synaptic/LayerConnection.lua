@@ -6,6 +6,9 @@ local ConnectionType = {
     ALL_TO_ELSE = "ALL TO ELSE"
 }
 
+-- LayerConnection
+-- Represent a connection from one layer to another layers
+-- and keeps track of its weight and gain
 local LayerConnection = utils.class("LayerConnection")
 
 function LayerConnection:__init__(fromLayer, toLayer, type, weights)
