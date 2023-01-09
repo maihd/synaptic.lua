@@ -1,3 +1,10 @@
+-- Make dofile is only call once, should comment when checked
+if _G.imported then 
+    error("utils.lua is imported")
+end
+_G.imported = true
+
+-- Create new class
 local function class(name, ...)
     local supers = { ... }
 
@@ -68,6 +75,7 @@ local function class(name, ...)
     return class
 end
 
+-- Exports
 return {
     class = class
 }
