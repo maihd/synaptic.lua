@@ -1,9 +1,8 @@
-local utils = dofile("utils.lua")
-
 -- Layer<T>
 -- Use generic type to prevent circle deps
-return function (LayerConnection, Neuron, Network)
-    local LayerConnection = LayerConnection or dofile("LayerConnection.lua")
+return function (modulePath, LayerConnection, Neuron)
+    local utils = dofile(modulePath .. "/utils.lua")
+    -- local LayerConnection = LayerConnection or dofile("LayerConnection.lua")
     -- local Neuron = Neuron or dofile("Neuron.lua") -- Neuron.lua is not implemented
     -- local Network = Network or dofile("Network.lua") -- Network.lua is not implemented
 
@@ -75,7 +74,7 @@ return function (LayerConnection, Neuron, Network)
     function Layer:project(layerOrNetwork, type, weights)
         local layer = layerOrNetwork
 
-        if Network.is(layerOrNetwork) then
+        if Layer.isNetwork(layerOrNetwork) then
             layer = layerOrNetwork.layers.input
         end
 
@@ -153,7 +152,7 @@ return function (LayerConnection, Neuron, Network)
         for _, from in pairs(self.list) do
             for _, to in pairs(layer.list) do
                 local connected = from:isConnected(to)
-                if connected.type == "projected" then
+                if connected and connected.type == "projected" then
                     connections = connections + 1
                 end
             end
@@ -168,7 +167,7 @@ return function (LayerConnection, Neuron, Network)
         for id, from in pairs(self.list) do
             local to = layer.list[id]
             local connected = from:isConnected(to)
-            if connected.type == "projected" then
+            if connected and connected.type == "projected" then
                 connections = connections + 1
             end
         end

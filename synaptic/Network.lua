@@ -1,7 +1,7 @@
-local utils = dofile("utils.lua")
-
+-- Network<T>
 -- Use generic type for prevent cyclic import
-return function (Layer)
+return function (modulePath, Layer)
+    local utils = dofile(modulePath .. "/utils.lua")
     local Network = utils.class("Network")
 
     function Network:__init__(layers)
@@ -14,7 +14,7 @@ return function (Layer)
 
     -- Feed-forward activation of all the layers to produce an output 
     function Network:activate(input)
-        self.layers.input.activate(input)
+        self.layers.input:activate(input)
         for _, layer in pairs(self.layers.hidden) do
             layer:activate()
         end

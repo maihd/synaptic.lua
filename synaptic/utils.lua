@@ -1,8 +1,8 @@
 -- Make dofile is only call once, should comment when checked
-if _G.imported then 
-    error("utils.lua is imported")
-end
-_G.imported = true
+-- if _G.imported then 
+--     error("utils.lua is imported")
+-- end
+-- _G.imported = true
 
 -- Create new class
 local function class(name, ...)
@@ -28,9 +28,8 @@ local function class(name, ...)
     -- Create constructor
     setmetatable(class, {
         __call = function (self, ...)
-            local object = {}
-            self.__init__(object, ...)
-            setmetatable(object, self)
+            local object = setmetatable({}, self)
+            object:__init__(...)
             return object
         end
     })
