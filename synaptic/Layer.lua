@@ -22,7 +22,7 @@ return function (modulePath, LayerConnection, Neuron)
 
         self.connectedTo = {}
 
-        for _=0, size do
+        for i = 1, size do
             local neuron = Neuron()
             table.insert(self.list, neuron)
         end
